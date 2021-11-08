@@ -1,6 +1,6 @@
 ﻿namespace Nuki
 {
-    public static class Authorization
+    public class Authorization
     {
         private static string _apiToken;
 

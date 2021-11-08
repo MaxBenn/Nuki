@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Nuki.Enumerations;
+using Nuki.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,17 +30,48 @@ namespace Nuki
             return client;
         }
 
+        #region Smartlock
+
         /// <summary>
         /// Get a list of Smartlocks
         /// </summary>
         /// <returns></returns>
-        public static async Task<Models.Smartlock[]> GetSmartlocksAsync()
+        public static async Task<Smartlock[]> GetSmartlocksAsync()
         {
             using (Client)
             {
                 var response = await Client.GetAsync($"smartlock");
                 var responseString = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Models.Smartlock[]>(responseString);
+            }
+        }
+
+        /// <summary>
+        /// Create a smartlock
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <param name="authUuid"></param>
+        /// <param name="authSecret"></param>
+        /// <returns></returns>
+        public static async Task<Smartlock> PutSmartlockAsync(Smartlock smartlock, string authUuid, string authSecret)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("smartlockId", $"{smartlock.SmartlockId}"),
+              new KeyValuePair<string, string>("type", $"{smartlock.Type}"),
+              new KeyValuePair<string, string>("name", $"{smartlock.Name}"),
+              new KeyValuePair<string, string>("authUuid", $"{authUuid}"),
+              new KeyValuePair<string, string>("authId", $"{smartlock.AuthId}"),
+              new KeyValuePair<string, string>("authSecret", $"{authSecret}"),
+              new KeyValuePair<string, string>("lmType", $"{smartlock.LmType}")
+           };
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PutAsync($"smartlock", requestParams);
+                var responseString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
             }
         }
         /// <summary>
@@ -73,6 +106,20 @@ namespace Nuki
                 return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
             }
         }
+
+        /// <summary>
+        /// Delete a smartlock
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> DeleteSmartlockAsync(Smartlock smartlock)
+        {
+            using (Client)
+            {
+                var response = await Client.DeleteAsync($"smartlock/{smartlock.SmartlockId}");
+                return response.StatusCode;
+            }
+        }
         /// <summary>
         /// Delete a Smartlock
         /// </summary>
@@ -86,18 +133,55 @@ namespace Nuki
                 return response.StatusCode;
             }
         }
+
+        /// <summary>
+        /// Get a smartlock
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<Smartlock> GetSmartlockAsync(Smartlock smartlock)
+        {
+            using (Client)
+            {
+                var response = await Client.GetAsync($"smartlock/{smartlock.SmartlockId}");
+                var responseString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Smartlock>(responseString);
+            }
+        }
         /// <summary>
         /// Get a Smartlock
         /// </summary>
         /// <param name="smartlockId"></param>
         /// <returns></returns>
-        public static async Task<Models.Smartlock> GetSmartlockAsync(int smartlockId)
+        public static async Task<Smartlock> GetSmartlockAsync(int smartlockId)
         {
             using (Client)
             {
                 var response = await Client.GetAsync($"smartlock/{smartlockId}");
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
+                return JsonConvert.DeserializeObject<Smartlock>(responseString);
+            }
+        }
+
+        /// <summary>
+        /// Update a smartlock
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <param name="name"></param>
+        /// <param name="favorite"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockAsync(Smartlock smartlock)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
+
+            allInputParams.Add(new KeyValuePair<string, string>("name", $"{smartlock.Name}"));
+            allInputParams.Add(new KeyValuePair<string, string>("favorite", $"{smartlock.Favorite}"));
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}", requestParams);
+                return response.StatusCode;
             }
         }
         /// <summary>
@@ -118,6 +202,29 @@ namespace Nuki
             using (Client)
             {
                 var response = await Client.PostAsync($"smartlock/{smartlockId}", requestParams);
+                return response.StatusCode;
+            }
+        }
+
+        /// <summary>
+        /// Lock & unlock a smartlock with options
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <param name="action"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockActionAsync(Smartlock smartlock, SmartlockAction action, SmartlockOption option)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("action", $"{(int)action}"),
+              new KeyValuePair<string, string>("option", $"{(int)option}")
+           };
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/action", requestParams);
                 return response.StatusCode;
             }
         }
@@ -143,6 +250,22 @@ namespace Nuki
                 return response.StatusCode;
             }
         }
+
+        /// <summary>
+        /// Lock a smartlock
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockActionLockAsync(Smartlock smartlock)
+        {
+            var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/action/lock", requestParams);
+                return response.StatusCode;
+            }
+        }
         /// <summary>
         /// Lock a smartlock
         /// </summary>
@@ -158,6 +281,22 @@ namespace Nuki
                 return response.StatusCode;
             }
         }
+
+        /// <summary>
+        /// Unlock a smartlock
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockActionUnlockAsync(Smartlock smartlock)
+        {
+            var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/action/unlock", requestParams);
+                return response.StatusCode;
+            }
+        }
         /// <summary>
         /// Unlock a smartlock
         /// </summary>
@@ -170,6 +309,27 @@ namespace Nuki
             using (Client)
             {
                 var response = await Client.PostAsync($"smartlock/{smartlockId}/action/unlock", requestParams);
+                return response.StatusCode;
+            }
+        }
+
+        /// <summary>
+        /// Updates a smartlock admin pin
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <param name="adminPin"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockAdminPinAsync(Smartlock smartlock, int adminPin)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("adminPin", $"{adminPin}")
+           };
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/admin/pin", requestParams);
                 return response.StatusCode;
             }
         }
@@ -199,7 +359,7 @@ namespace Nuki
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(Smartlock smartlock)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
             allInputParams.Add(new KeyValuePair<string, string>("lngTimeout", $"{smartlock.AdvancedConfig.LngTimeout}"));
@@ -292,7 +452,47 @@ namespace Nuki
             }
         }
 
+        /// <summary>
+        /// Updates an opener advanced config
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockAdvancedOpenerconfigAsync(Smartlock smartlock)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("intercomId", $"{smartlock.OpenerAdvancedConfig.IntercomId}"),
+              new KeyValuePair<string, string>("busModeSwitch", $"{smartlock.OpenerAdvancedConfig.BusModeSwitch}"),
+              new KeyValuePair<string, string>("shortCircuitDuration", $"{smartlock.OpenerAdvancedConfig.ShortCircuitDuration}"),
+              new KeyValuePair<string, string>("electricStrikeDelay", $"{smartlock.OpenerAdvancedConfig.ElectricStrikeDelay}"),
+              new KeyValuePair<string, string>("randomElectricStrikeDelay", $"{smartlock.OpenerAdvancedConfig.RandomElectricStrikeDelay}"),
+              new KeyValuePair<string, string>("electricStrikeDuration", $"{smartlock.OpenerAdvancedConfig.ElectricStrikeDuration}"),
+              new KeyValuePair<string, string>("disableRtoAfterRing", $"{smartlock.OpenerAdvancedConfig.DisableRtoAfterRing}"),
+              new KeyValuePair<string, string>("rtoTimeout", $"{smartlock.OpenerAdvancedConfig.RtoTimeout}"),
+              new KeyValuePair<string, string>("doorbellSuppression", $"{smartlock.OpenerAdvancedConfig.DoorbellSuppression}"),
+              new KeyValuePair<string, string>("doorbellSuppressionDuration", $"{smartlock.OpenerAdvancedConfig.DoorbellSuppressionDuration}"),
+              new KeyValuePair<string, string>("soundRing", $"{smartlock.OpenerAdvancedConfig.SoundRing}"),
+              new KeyValuePair<string, string>("soundOpen", $"{smartlock.OpenerAdvancedConfig.SoundOpen}"),
+              new KeyValuePair<string, string>("soundRto", $"{smartlock.OpenerAdvancedConfig.SoundRto}"),
+              new KeyValuePair<string, string>("soundCm", $"{smartlock.OpenerAdvancedConfig.SoundCm}"),
+              new KeyValuePair<string, string>("soundConfirmation", $"{smartlock.OpenerAdvancedConfig.SoundConfirmation}"),
+              new KeyValuePair<string, string>("soundLevel", $"{smartlock.OpenerAdvancedConfig.SoundLevel}"),
+              new KeyValuePair<string, string>("singleButtonPressAction", $"{smartlock.OpenerAdvancedConfig.SingleButtonPressAction}"),
+              new KeyValuePair<string, string>("doubleButtonPressAction", $"{smartlock.OpenerAdvancedConfig.DoubleButtonPressAction}"),
+              new KeyValuePair<string, string>("batteryType", $"{smartlock.OpenerAdvancedConfig.BatteryType}"),
+              new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{smartlock.OpenerAdvancedConfig.AutomaticBatteryTypeDetection}"),
+              new KeyValuePair<string, string>("autoUpdateEnabled", $"{smartlock.OpenerAdvancedConfig.AutoUpdateEnabled}"),
+              new KeyValuePair<string, string>("operationId", $"{smartlock.OpenerAdvancedConfig.OperationId}")
+           };
 
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/advanced/openerconfig", requestParams);
+                return response.StatusCode;
+            }
+        }
         /// <summary>
         /// Updates an opener advanced config
         /// </summary>
@@ -380,6 +580,51 @@ namespace Nuki
             }
         }
 
+        /// <summary>
+        /// Updates  a smartdoor advanced config
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockAdvancedSmartdoorconfigAsync(Smartlock smartlock)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("lngTimeout", $"{smartlock.SmartdoorAdvancedConfig.LngTimeout}"),
+              new KeyValuePair<string, string>("singleButtonPressAction", $"{smartlock.SmartdoorAdvancedConfig.SingleButtonPressAction}"),
+              new KeyValuePair<string, string>("doubleButtonPressAction", $"{smartlock.SmartdoorAdvancedConfig.DoubleButtonPressAction}"),
+              new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{smartlock.SmartdoorAdvancedConfig.AutomaticBatteryTypeDetection}"),
+              new KeyValuePair<string, string>("unlatchDuration", $"{smartlock.SmartdoorAdvancedConfig.UnlatchDuration}"),
+              new KeyValuePair<string, string>("operationId", $"{smartlock.SmartdoorAdvancedConfig.OperationId}"),
+              new KeyValuePair<string, string>("buzzerVolume", $"{smartlock.SmartdoorAdvancedConfig.BuzzerVolume}"),
+              new KeyValuePair<string, string>("supportedBatteryTypes", $"{smartlock.SmartdoorAdvancedConfig.SupportedBatteryTypes}"),
+              new KeyValuePair<string, string>("batteryType", $"{smartlock.SmartdoorAdvancedConfig.BatteryType}"),
+              new KeyValuePair<string, string>("autoLockTimeout", $"{smartlock.SmartdoorAdvancedConfig.AutoLockTimeout}"),
+              new KeyValuePair<string, string>("autoLock", $"{smartlock.SmartdoorAdvancedConfig.AutoLock}")
+           };
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/advanced/smartdoorconfig", requestParams);
+                return response.StatusCode;
+            }
+        }
+        /// <summary>
+        /// Updates  a smartdoor advanced config
+        /// </summary>
+        /// <param name="smartlockId"></param>
+        /// <param name="lngTimeout"></param>
+        /// <param name="singleButtonPressAction"></param>
+        /// <param name="doubleButtonPressAction"></param>
+        /// <param name="automaticBatteryTypeDetection"></param>
+        /// <param name="unlatchDuration"></param>
+        /// <param name="operationId"></param>
+        /// <param name="buzzerVolume"></param>
+        /// <param name="supportedBatteryTypes"></param>
+        /// <param name="batteryType"></param>
+        /// <param name="autoLockTimeout"></param>
+        /// <param name="autoLock"></param>
+        /// <returns></returns>
         public static async Task<HttpStatusCode> PostSmartlockAdvancedSmartdoorconfigAsync(
             int smartlockId,
             int lngTimeout = 5,
@@ -414,6 +659,48 @@ namespace Nuki
             using (Client)
             {
                 var response = await Client.PostAsync($"smartlock/{smartlockId}/advanced/smartdoorconfig", requestParams);
+                return response.StatusCode;
+            }
+        }
+
+        /// <summary>
+        /// Updates a smartlock config
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockConfigAsync(Smartlock smartlock)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("name", $"{smartlock.Config.Name}"),
+              new KeyValuePair<string, string>("latitude", $"{smartlock.Config.Latitude}"),
+              new KeyValuePair<string, string>("longitude", $"{smartlock.Config.Longitude}"),
+              new KeyValuePair<string, string>("capabilities", $"{smartlock.Config.Capabilities}"),
+              new KeyValuePair<string, string>("autoUnlatch", $"{smartlock.Config.AutoUnlatch}"),
+              new KeyValuePair<string, string>("liftUpHandle", $"{smartlock.Config.LiftUpHandle}"),
+              new KeyValuePair<string, string>("pairingEnabled", $"{smartlock.Config.PairingEnabled}"),
+              new KeyValuePair<string, string>("buttonEnabled", $"{smartlock.Config.ButtonEnabled}"),
+              new KeyValuePair<string, string>("ledEnabled", $"{smartlock.Config.LedEnabled}"),
+              new KeyValuePair<string, string>("ledBrightness", $"{smartlock.Config.LedBrightness}"),
+              new KeyValuePair<string, string>("timezoneOffset", $"{smartlock.Config.TimezoneOffset}"),
+              new KeyValuePair<string, string>("daylightSavingMode", $"{smartlock.Config.DaylightSavingMode}"),
+              new KeyValuePair<string, string>("fobPaired", $"{smartlock.Config.FobPaired}"),
+              new KeyValuePair<string, string>("fobAction1", $"{smartlock.Config.FobAction1}"),
+              new KeyValuePair<string, string>("fobAction2", $"{smartlock.Config.FobAction2}"),
+              new KeyValuePair<string, string>("fobAction3", $"{smartlock.Config.FobAction3}"),
+              new KeyValuePair<string, string>("singleLock", $"{smartlock.Config.SingleLock}"),
+              new KeyValuePair<string, string>("operatingMode", $"{smartlock.Config.OperatingMode}"),
+              new KeyValuePair<string, string>("advertisingMode", $"{smartlock.Config.AdvertisingMode}"),
+              new KeyValuePair<string, string>("keypadPaired", $"{smartlock.Config.KeypadPaired}"),
+              new KeyValuePair<string, string>("homekitState", $"{smartlock.Config.HomekitState}"),
+              new KeyValuePair<string, string>("timezoneId", $"{smartlock.Config.TimezoneId}"),
+              new KeyValuePair<string, string>("operationId", $"{smartlock.Config.OperationId}")
+           };
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/config", requestParams);
                 return response.StatusCode;
             }
         }
@@ -505,6 +792,22 @@ namespace Nuki
                 return response.StatusCode;
             }
         }
+
+        /// <summary>
+        /// Syncs a smartlock
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockSyncAsync(Smartlock smartlock)
+        {
+            var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/sync", requestParams);
+                return response.StatusCode;
+            }
+        }
         /// <summary>
         /// Syncs a smartlock
         /// </summary>
@@ -517,6 +820,28 @@ namespace Nuki
             using (Client)
             {
                 var response = await Client.PostAsync($"smartlock/{smartlockId}/sync", requestParams);
+                return response.StatusCode;
+            }
+        }
+
+        /// <summary>
+        /// Updates a smartlock web config
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockWebConfigAsync(Smartlock smartlock)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("batteryWarningPerMailEnabled", $"{smartlock.WebConfig.BatteryWarningPerMailEnabled}"),
+              new KeyValuePair<string, string>("dismissedLiftUpHandleWarning", $"{smartlock.WebConfig.DismissedLiftUpHandleWarnings}")
+           };
+
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (Client)
+            {
+                var response = await Client.PostAsync($"smartlock/{smartlock.SmartlockId}/web/config", requestParams);
                 return response.StatusCode;
             }
         }
@@ -547,5 +872,10 @@ namespace Nuki
                 return response.StatusCode;
             }
         }
+
+        #endregion
+
+
+
     }
 }
