@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Nuki.Models.Smartlock
+namespace Nuki.Models
 {
-    public class WebConfig
+   public abstract class WebConfig
     {
         [JsonProperty("batteryWarningPerMailEnabled")]
         public bool BatteryWarningPerMailEnabled { get; set; }

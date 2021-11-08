@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Nuki.Models.Smartlock
+namespace Nuki.Models
 {
     public class Smartlock
     {

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nuki.Models.Smartlock
+namespace Nuki.Models
 {
-    public class Config
+   public abstract class Config
     {
         [JsonProperty("name")]
         public string Name { get; set; }

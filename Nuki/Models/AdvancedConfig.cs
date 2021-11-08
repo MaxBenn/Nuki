@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nuki.Models.Smartlock
-{
-    public class AdvancedConfig
+namespace Nuki.Models
+{ 
+    public abstract class AdvancedConfig
     {
         [JsonProperty("lngTimeout")]
         public int LngTimeout { get; set; }

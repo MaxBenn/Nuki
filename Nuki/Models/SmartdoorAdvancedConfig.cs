@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nuki.Models.Smartlock
+namespace Nuki.Models
 {
-    public class SmartdoorAdvancedConfig
+   public abstract class SmartdoorAdvancedConfig
     {
         [JsonProperty("lngTimeout")]
         public int LngTimeout { get; set; }

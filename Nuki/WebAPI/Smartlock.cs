@@ -13,13 +13,13 @@ namespace Nuki.WebAPI
         /// Get a list of Smartlocks
         /// </summary>
         /// <returns></returns>
-        public static async Task<Models.Smartlock.Smartlock[]> GetSmartlocksAsync()
+        public static async Task<Models.Smartlock[]> GetSmartlocksAsync()
         {
             using (NukiApi.Client)
             {
                 var response = await NukiApi.Client.GetAsync($"smartlock");
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock.Smartlock[]>(responseString);
+                return JsonConvert.DeserializeObject<Models.Smartlock[]>(responseString);
             }
         }
         /// <summary>
@@ -33,23 +33,25 @@ namespace Nuki.WebAPI
         /// <param name="authSecret"></param>
         /// <param name="lmType"></param>
         /// <returns></returns>
-        public static async Task<Models.Smartlock.Smartlock> PutSmartlockAsync(int smartlockId, int type, string name, string authUuid, int authId, string authSecret, int lmType)
+        public static async Task<Models.Smartlock> PutSmartlockAsync(int smartlockId, int type, string name, string authUuid, int authId, string authSecret, int lmType)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("smartlockId", $"{smartlockId}"));
-            allInputParams.Add(new KeyValuePair<string, string>("type", $"{type}"));
-            allInputParams.Add(new KeyValuePair<string, string>("name", $"{name}"));
-            allInputParams.Add(new KeyValuePair<string, string>("authUuid", $"{authUuid}"));
-            allInputParams.Add(new KeyValuePair<string, string>("authId", $"{authId}"));
-            allInputParams.Add(new KeyValuePair<string, string>("authSecret", $"{authSecret}"));
-            allInputParams.Add(new KeyValuePair<string, string>("lmType", $"{lmType}"));
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("smartlockId", $"{smartlockId}"),
+              new KeyValuePair<string, string>("type", $"{type}"),
+              new KeyValuePair<string, string>("name", $"{name}"),
+              new KeyValuePair<string, string>("authUuid", $"{authUuid}"),
+              new KeyValuePair<string, string>("authId", $"{authId}"),
+              new KeyValuePair<string, string>("authSecret", $"{authSecret}"),
+              new KeyValuePair<string, string>("lmType", $"{lmType}")
+           };
+           var requestParams = new FormUrlEncodedContent(allInputParams);
 
             using (NukiApi.Client)
             {
                 var response = await NukiApi.Client.PutAsync($"smartlock", requestParams);
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock.Smartlock>(responseString);
+                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
             }
         }
         /// <summary>
@@ -70,13 +72,13 @@ namespace Nuki.WebAPI
         /// </summary>
         /// <param name="smartlockId"></param>
         /// <returns></returns>
-        public static async Task<Models.Smartlock.Smartlock> GetSmartlockAsync(int smartlockId)
+        public static async Task<Models.Smartlock> GetSmartlockAsync(int smartlockId)
         {
             using (NukiApi.Client)
             {
                 var response = await NukiApi.Client.GetAsync($"smartlock/{smartlockId}");
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock.Smartlock>(responseString);
+                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
             }
         }
         /// <summary>
@@ -109,10 +111,12 @@ namespace Nuki.WebAPI
         /// <returns></returns>
         public static async Task<HttpStatusCode> PostSmartlockActionAsync(int smartlockId, int action, int option)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("action", $"{action}"));
-            allInputParams.Add(new KeyValuePair<string, string>("option", $"{option}"));
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("action", $"{action}"),
+              new KeyValuePair<string, string>("option", $"{option}")
+           };
+           var requestParams = new FormUrlEncodedContent(allInputParams);
 
             using (NukiApi.Client)
             {
@@ -127,8 +131,7 @@ namespace Nuki.WebAPI
         /// <returns></returns>
         public static async Task<HttpStatusCode> PostSmartlockActionLockAsync(int smartlockId)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
 
             using (NukiApi.Client)
             {
@@ -143,8 +146,7 @@ namespace Nuki.WebAPI
         /// <returns></returns>
         public static async Task<HttpStatusCode> PostSmartlockActionUnlockAsync(int smartlockId)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+            var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
 
             using (NukiApi.Client)
             {
@@ -160,9 +162,11 @@ namespace Nuki.WebAPI
         /// <returns></returns>
         public static async Task<HttpStatusCode> PostSmartlockAdminPinAsync(int smartlockId, int adminPin)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("adminPin", $"{adminPin}"));
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("adminPin", $"{adminPin}")
+           };
+           var requestParams = new FormUrlEncodedContent(allInputParams);
 
             using (NukiApi.Client)
             {
@@ -170,28 +174,61 @@ namespace Nuki.WebAPI
                 return response.StatusCode;
             }
         }
-        /// <summary>
-        /// Updates a smartlock advanced config
-        /// </summary>
-        /// <param name="smartlockId"></param>
-        /// <param name="lngTimeout"></param>
-        /// <param name="singleButtonPressAction"></param>
-        /// <param name="doubleButtonPressAction"></param>
-        /// <param name="automaticBatteryTypeDetection"></param>
-        /// <param name="unlatchDuration"></param>
-        /// <param name="operationId"></param>
-        /// <param name="totalDegrees"></param>
-        /// <param name="singleLockedPositionOffsetDegrees"></param>
-        /// <param name="unlockedToLockedTransitionOffsetDegrees"></param>
-        /// <param name="unlockedPositionOffsetDegrees"></param>
-        /// <param name="lockedPositionOffsetDegrees"></param>
-        /// <param name="detachedCylinder"></param>
-        /// <param name="batteryType"></param>
-        /// <param name="autoLock"></param>
-        /// <param name="autoLockTimeout"></param>
-        /// <param name="autoUpdateEnabled"></param>
-        /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(
+
+      /// <summary>
+      /// Updates a smartlock advanced config
+      /// </summary>
+      /// <param name="smartlock"></param>
+      /// <returns></returns>
+      public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(Models.Smartlock smartlock)
+      {
+         List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
+         allInputParams.Add(new KeyValuePair<string, string>("lngTimeout", $"{smartlock.AdvancedConfig.LngTimeout}"));
+         allInputParams.Add(new KeyValuePair<string, string>("singleButtonPressAction", $"{smartlock.AdvancedConfig.SingleButtonPressAction}"));
+         allInputParams.Add(new KeyValuePair<string, string>("doubleButtonPressAction", $"{smartlock.AdvancedConfig.DoubleButtonPressAction}"));
+         allInputParams.Add(new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{smartlock.AdvancedConfig.AutomaticBatteryTypeDetection}"));
+         allInputParams.Add(new KeyValuePair<string, string>("unlatchDuration", $"{smartlock.AdvancedConfig.UnlatchDuration}"));
+         allInputParams.Add(new KeyValuePair<string, string>("operationId", $"{smartlock.AdvancedConfig.OperationId}"));
+         allInputParams.Add(new KeyValuePair<string, string>("totalDegrees", $"{smartlock.AdvancedConfig.TotalDegrees}"));
+         allInputParams.Add(new KeyValuePair<string, string>("singleLockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.SingleLockedPositionOffsetDegrees}"));
+         allInputParams.Add(new KeyValuePair<string, string>("unlockedToLockedTransitionOffsetDegrees", $"{smartlock.AdvancedConfig.UnlockedToLockedTransitionOffsetDegrees}"));
+         allInputParams.Add(new KeyValuePair<string, string>("unlockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.UnlockedPositionOffsetDegrees}"));
+         allInputParams.Add(new KeyValuePair<string, string>("lockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.LockedPositionOffsetDegrees}"));
+         allInputParams.Add(new KeyValuePair<string, string>("detachedCylinder", $"{smartlock.AdvancedConfig.DetachedCylinder}"));
+         allInputParams.Add(new KeyValuePair<string, string>("batteryType", $"{smartlock.AdvancedConfig.BatteryType}"));
+         allInputParams.Add(new KeyValuePair<string, string>("autoLock", $"{smartlock.AdvancedConfig.AutoLock}"));
+         allInputParams.Add(new KeyValuePair<string, string>("autoLockTimeout", $"{smartlock.AdvancedConfig.AutoLockTimeout}"));
+         allInputParams.Add(new KeyValuePair<string, string>("autoUpdateEnabled", $"{smartlock.AdvancedConfig.AutoUpdateEnabled}"));
+         var requestParams = new FormUrlEncodedContent(allInputParams);
+
+         using (NukiApi.Client)
+         {
+            var response = await NukiApi.Client.PostAsync($"smartlock/{smartlock.SmartlockId}/advanced/config", requestParams);
+            return response.StatusCode;
+         }
+      }
+      /// <summary>
+      /// Updates a smartlock advanced config
+      /// </summary>
+      /// <param name="smartlockId"></param>
+      /// <param name="lngTimeout"></param>
+      /// <param name="singleButtonPressAction"></param>
+      /// <param name="doubleButtonPressAction"></param>
+      /// <param name="automaticBatteryTypeDetection"></param>
+      /// <param name="unlatchDuration"></param>
+      /// <param name="operationId"></param>
+      /// <param name="totalDegrees"></param>
+      /// <param name="singleLockedPositionOffsetDegrees"></param>
+      /// <param name="unlockedToLockedTransitionOffsetDegrees"></param>
+      /// <param name="unlockedPositionOffsetDegrees"></param>
+      /// <param name="lockedPositionOffsetDegrees"></param>
+      /// <param name="detachedCylinder"></param>
+      /// <param name="batteryType"></param>
+      /// <param name="autoLock"></param>
+      /// <param name="autoLockTimeout"></param>
+      /// <param name="autoUpdateEnabled"></param>
+      /// <returns></returns>
+      public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(
             int smartlockId, 
             int lngTimeout = 5, 
             int singleButtonPressAction = 0, 
@@ -235,38 +272,7 @@ namespace Nuki.WebAPI
                 return response.StatusCode;
             }
         }
-        /// <summary>
-        /// Updates a smartlock advanced config
-        /// </summary>
-        /// <param name="smartlock"></param>
-        /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(Nuki.Models.Smartlock.Smartlock smartlock)
-        {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("lngTimeout", $"{smartlock.AdvancedConfig.LngTimeout}"));
-            allInputParams.Add(new KeyValuePair<string, string>("singleButtonPressAction", $"{smartlock.AdvancedConfig.SingleButtonPressAction}"));
-            allInputParams.Add(new KeyValuePair<string, string>("doubleButtonPressAction", $"{smartlock.AdvancedConfig.DoubleButtonPressAction}"));
-            allInputParams.Add(new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{smartlock.AdvancedConfig.AutomaticBatteryTypeDetection}"));
-            allInputParams.Add(new KeyValuePair<string, string>("unlatchDuration", $"{smartlock.AdvancedConfig.UnlatchDuration}"));
-            allInputParams.Add(new KeyValuePair<string, string>("operationId", $"{smartlock.AdvancedConfig.OperationId}"));
-            allInputParams.Add(new KeyValuePair<string, string>("totalDegrees", $"{smartlock.AdvancedConfig.TotalDegrees}"));
-            allInputParams.Add(new KeyValuePair<string, string>("singleLockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.SingleLockedPositionOffsetDegrees}"));
-            allInputParams.Add(new KeyValuePair<string, string>("unlockedToLockedTransitionOffsetDegrees", $"{smartlock.AdvancedConfig.UnlockedToLockedTransitionOffsetDegrees}"));
-            allInputParams.Add(new KeyValuePair<string, string>("unlockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.UnlockedPositionOffsetDegrees}"));
-            allInputParams.Add(new KeyValuePair<string, string>("lockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.LockedPositionOffsetDegrees}"));
-            allInputParams.Add(new KeyValuePair<string, string>("detachedCylinder", $"{smartlock.AdvancedConfig.DetachedCylinder}"));
-            allInputParams.Add(new KeyValuePair<string, string>("batteryType", $"{smartlock.AdvancedConfig.BatteryType}"));
-            allInputParams.Add(new KeyValuePair<string, string>("autoLock", $"{smartlock.AdvancedConfig.AutoLock}"));
-            allInputParams.Add(new KeyValuePair<string, string>("autoLockTimeout", $"{smartlock.AdvancedConfig.AutoLockTimeout}"));
-            allInputParams.Add(new KeyValuePair<string, string>("autoUpdateEnabled", $"{smartlock.AdvancedConfig.AutoUpdateEnabled}"));
-            var requestParams = new FormUrlEncodedContent(allInputParams);
-
-            using (NukiApi.Client)
-            {
-                var response = await NukiApi.Client.PostAsync($"smartlock/{smartlockId}/advanced/config", requestParams);
-                return response.StatusCode;
-            }
-        }
+       
 
         /// <summary>
         /// Updates an opener advanced config
@@ -320,31 +326,33 @@ namespace Nuki.WebAPI
             bool autoUpdateEnabled = true,
             string operationId = "")
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("intercomId", $"{intercomId}"));
-            allInputParams.Add(new KeyValuePair<string, string>("busModeSwitch", $"{busModeSwitch}"));
-            allInputParams.Add(new KeyValuePair<string, string>("shortCircuitDuration", $"{shortCircuitDuration}"));
-            allInputParams.Add(new KeyValuePair<string, string>("electricStrikeDelay", $"{electricStrikeDelay}"));
-            allInputParams.Add(new KeyValuePair<string, string>("randomElectricStrikeDelay", $"{randomElectricStrikeDelay}"));
-            allInputParams.Add(new KeyValuePair<string, string>("electricStrikeDuration", $"{electricStrikeDuration}"));
-            allInputParams.Add(new KeyValuePair<string, string>("disableRtoAfterRing", $"{disableRtoAfterRing}"));
-            allInputParams.Add(new KeyValuePair<string, string>("rtoTimeout", $"{rtoTimeout}"));
-            allInputParams.Add(new KeyValuePair<string, string>("doorbellSuppression", $"{doorbellSuppression}"));
-            allInputParams.Add(new KeyValuePair<string, string>("doorbellSuppressionDuration", $"{doorbellSuppressionDuration}"));
-            allInputParams.Add(new KeyValuePair<string, string>("soundRing", $"{soundRing}"));
-            allInputParams.Add(new KeyValuePair<string, string>("soundOpen", $"{soundOpen}"));
-            allInputParams.Add(new KeyValuePair<string, string>("soundRto", $"{soundRto}"));
-            allInputParams.Add(new KeyValuePair<string, string>("soundCm", $"{soundCm}"));
-            allInputParams.Add(new KeyValuePair<string, string>("soundConfirmation", $"{soundConfirmation}"));
-            allInputParams.Add(new KeyValuePair<string, string>("soundLevel", $"{soundLevel}"));
-            allInputParams.Add(new KeyValuePair<string, string>("singleButtonPressAction", $"{singleButtonPressAction}"));
-            allInputParams.Add(new KeyValuePair<string, string>("doubleButtonPressAction", $"{doubleButtonPressAction}"));
-            allInputParams.Add(new KeyValuePair<string, string>("batteryType", $"{batteryType}"));
-            allInputParams.Add(new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{automaticBatteryTypeDetection}"));
-            allInputParams.Add(new KeyValuePair<string, string>("autoUpdateEnabled", $"{autoUpdateEnabled}"));
-            allInputParams.Add(new KeyValuePair<string, string>("operationId", $"{operationId}"));
+           List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("intercomId", $"{intercomId}"),
+              new KeyValuePair<string, string>("busModeSwitch", $"{busModeSwitch}"),
+              new KeyValuePair<string, string>("shortCircuitDuration", $"{shortCircuitDuration}"),
+              new KeyValuePair<string, string>("electricStrikeDelay", $"{electricStrikeDelay}"),
+              new KeyValuePair<string, string>("randomElectricStrikeDelay", $"{randomElectricStrikeDelay}"),
+              new KeyValuePair<string, string>("electricStrikeDuration", $"{electricStrikeDuration}"),
+              new KeyValuePair<string, string>("disableRtoAfterRing", $"{disableRtoAfterRing}"),
+              new KeyValuePair<string, string>("rtoTimeout", $"{rtoTimeout}"),
+              new KeyValuePair<string, string>("doorbellSuppression", $"{doorbellSuppression}"),
+              new KeyValuePair<string, string>("doorbellSuppressionDuration", $"{doorbellSuppressionDuration}"),
+              new KeyValuePair<string, string>("soundRing", $"{soundRing}"),
+              new KeyValuePair<string, string>("soundOpen", $"{soundOpen}"),
+              new KeyValuePair<string, string>("soundRto", $"{soundRto}"),
+              new KeyValuePair<string, string>("soundCm", $"{soundCm}"),
+              new KeyValuePair<string, string>("soundConfirmation", $"{soundConfirmation}"),
+              new KeyValuePair<string, string>("soundLevel", $"{soundLevel}"),
+              new KeyValuePair<string, string>("singleButtonPressAction", $"{singleButtonPressAction}"),
+              new KeyValuePair<string, string>("doubleButtonPressAction", $"{doubleButtonPressAction}"),
+              new KeyValuePair<string, string>("batteryType", $"{batteryType}"),
+              new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{automaticBatteryTypeDetection}"),
+              new KeyValuePair<string, string>("autoUpdateEnabled", $"{autoUpdateEnabled}"),
+              new KeyValuePair<string, string>("operationId", $"{operationId}")
+           };
 
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           var requestParams = new FormUrlEncodedContent(allInputParams);
 
             using (NukiApi.Client)
             {
@@ -367,19 +375,22 @@ namespace Nuki.WebAPI
             int autoLockTimeout = 0,
             bool autoLock = true)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("lngTimeout", $"{lngTimeout}"));
-            allInputParams.Add(new KeyValuePair<string, string>("singleButtonPressAction", $"{singleButtonPressAction}"));
-            allInputParams.Add(new KeyValuePair<string, string>("doubleButtonPressAction", $"{doubleButtonPressAction}"));
-            allInputParams.Add(new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{automaticBatteryTypeDetection}"));
-            allInputParams.Add(new KeyValuePair<string, string>("unlatchDuration", $"{unlatchDuration}"));
-            allInputParams.Add(new KeyValuePair<string, string>("operationId", $"{operationId}"));
-            allInputParams.Add(new KeyValuePair<string, string>("buzzerVolume", $"{buzzerVolume}"));
-            allInputParams.Add(new KeyValuePair<string, string>("supportedBatteryTypes", $"{supportedBatteryTypes ?? new List<int>()}"));
-            allInputParams.Add(new KeyValuePair<string, string>("batteryType", $"{batteryType}"));
-            allInputParams.Add(new KeyValuePair<string, string>("autoLockTimeout", $"{autoLockTimeout}"));
-            allInputParams.Add(new KeyValuePair<string, string>("autoLock", $"{autoLock}"));
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("lngTimeout", $"{lngTimeout}"),
+              new KeyValuePair<string, string>("singleButtonPressAction", $"{singleButtonPressAction}"),
+              new KeyValuePair<string, string>("doubleButtonPressAction", $"{doubleButtonPressAction}"),
+              new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{automaticBatteryTypeDetection}"),
+              new KeyValuePair<string, string>("unlatchDuration", $"{unlatchDuration}"),
+              new KeyValuePair<string, string>("operationId", $"{operationId}"),
+              new KeyValuePair<string, string>("buzzerVolume", $"{buzzerVolume}"),
+              new KeyValuePair<string, string>("supportedBatteryTypes",
+                 $"{supportedBatteryTypes ?? new List<int>()}"),
+              new KeyValuePair<string, string>("batteryType", $"{batteryType}"),
+              new KeyValuePair<string, string>("autoLockTimeout", $"{autoLockTimeout}"),
+              new KeyValuePair<string, string>("autoLock", $"{autoLock}")
+           };
+           var requestParams = new FormUrlEncodedContent(allInputParams);
 
             using (NukiApi.Client)
             {
@@ -441,31 +452,33 @@ namespace Nuki.WebAPI
             int timezoneId = 0,
             string operationId = "")
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("name", $"{name}"));
-            allInputParams.Add(new KeyValuePair<string, string>("latitude", $"{latitude}"));
-            allInputParams.Add(new KeyValuePair<string, string>("longitude", $"{longitude}"));
-            allInputParams.Add(new KeyValuePair<string, string>("capabilities", $"{capabilities}"));
-            allInputParams.Add(new KeyValuePair<string, string>("autoUnlatch", $"{autoUnlatch}"));
-            allInputParams.Add(new KeyValuePair<string, string>("liftUpHandle", $"{liftUpHandle}"));
-            allInputParams.Add(new KeyValuePair<string, string>("pairingEnabled", $"{pairingEnabled}"));
-            allInputParams.Add(new KeyValuePair<string, string>("buttonEnabled", $"{buttonEnabled}"));
-            allInputParams.Add(new KeyValuePair<string, string>("ledEnabled", $"{ledEnabled}"));
-            allInputParams.Add(new KeyValuePair<string, string>("ledBrightness", $"{ledBrightness}"));
-            allInputParams.Add(new KeyValuePair<string, string>("timezoneOffset", $"{timezoneOffset}"));
-            allInputParams.Add(new KeyValuePair<string, string>("daylightSavingMode", $"{daylightSavingMode}"));
-            allInputParams.Add(new KeyValuePair<string, string>("fobPaired", $"{fobPaired}"));
-            allInputParams.Add(new KeyValuePair<string, string>("fobAction1", $"{fobAction1}"));
-            allInputParams.Add(new KeyValuePair<string, string>("fobAction2", $"{fobAction2}"));
-            allInputParams.Add(new KeyValuePair<string, string>("fobAction3", $"{fobAction3}"));
-            allInputParams.Add(new KeyValuePair<string, string>("singleLock", $"{singleLock}"));
-            allInputParams.Add(new KeyValuePair<string, string>("operatingMode", $"{operatingMode}"));
-            allInputParams.Add(new KeyValuePair<string, string>("advertisingMode", $"{advertisingMode}"));
-            allInputParams.Add(new KeyValuePair<string, string>("keypadPaired", $"{keypadPaired}"));
-            allInputParams.Add(new KeyValuePair<string, string>("homekitState", $"{homekitState}"));
-            allInputParams.Add(new KeyValuePair<string, string>("timezoneId", $"{timezoneId}"));
-            allInputParams.Add(new KeyValuePair<string, string>("operationId", $"{operationId}"));
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("name", $"{name}"),
+              new KeyValuePair<string, string>("latitude", $"{latitude}"),
+              new KeyValuePair<string, string>("longitude", $"{longitude}"),
+              new KeyValuePair<string, string>("capabilities", $"{capabilities}"),
+              new KeyValuePair<string, string>("autoUnlatch", $"{autoUnlatch}"),
+              new KeyValuePair<string, string>("liftUpHandle", $"{liftUpHandle}"),
+              new KeyValuePair<string, string>("pairingEnabled", $"{pairingEnabled}"),
+              new KeyValuePair<string, string>("buttonEnabled", $"{buttonEnabled}"),
+              new KeyValuePair<string, string>("ledEnabled", $"{ledEnabled}"),
+              new KeyValuePair<string, string>("ledBrightness", $"{ledBrightness}"),
+              new KeyValuePair<string, string>("timezoneOffset", $"{timezoneOffset}"),
+              new KeyValuePair<string, string>("daylightSavingMode", $"{daylightSavingMode}"),
+              new KeyValuePair<string, string>("fobPaired", $"{fobPaired}"),
+              new KeyValuePair<string, string>("fobAction1", $"{fobAction1}"),
+              new KeyValuePair<string, string>("fobAction2", $"{fobAction2}"),
+              new KeyValuePair<string, string>("fobAction3", $"{fobAction3}"),
+              new KeyValuePair<string, string>("singleLock", $"{singleLock}"),
+              new KeyValuePair<string, string>("operatingMode", $"{operatingMode}"),
+              new KeyValuePair<string, string>("advertisingMode", $"{advertisingMode}"),
+              new KeyValuePair<string, string>("keypadPaired", $"{keypadPaired}"),
+              new KeyValuePair<string, string>("homekitState", $"{homekitState}"),
+              new KeyValuePair<string, string>("timezoneId", $"{timezoneId}"),
+              new KeyValuePair<string, string>("operationId", $"{operationId}")
+           };
+           var requestParams = new FormUrlEncodedContent(allInputParams);
 
             using (NukiApi.Client)
             {
@@ -480,8 +493,7 @@ namespace Nuki.WebAPI
         /// <returns></returns>
         public static async Task<HttpStatusCode> PostSmartlockSyncAsync(int smartlockId)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+            var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
 
             using (NukiApi.Client)
             {
@@ -501,11 +513,14 @@ namespace Nuki.WebAPI
             bool batteryWarningPerMailEnabled = true,
             IList<int> dismissedLiftUpHandleWarning = null)
         {
-            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
-            allInputParams.Add(new KeyValuePair<string, string>("batteryWarningPerMailEnabled", $"{batteryWarningPerMailEnabled}"));
-            allInputParams.Add(new KeyValuePair<string, string>("dismissedLiftUpHandleWarning", $"{dismissedLiftUpHandleWarning ?? new List<int>()}"));
+           List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
+           {
+              new KeyValuePair<string, string>("batteryWarningPerMailEnabled", $"{batteryWarningPerMailEnabled}"),
+              new KeyValuePair<string, string>("dismissedLiftUpHandleWarning",
+                 $"{dismissedLiftUpHandleWarning ?? new List<int>()}")
+           };
 
-            var requestParams = new FormUrlEncodedContent(allInputParams);
+           var requestParams = new FormUrlEncodedContent(allInputParams);
 
             using (NukiApi.Client)
             {

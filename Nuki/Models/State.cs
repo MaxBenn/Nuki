@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Nuki.Models.Smartlock
+namespace Nuki.Models
 {
-    public class State
+   public abstract class State
     {
         [JsonProperty("mode")]
         public int Mode { get; set; }

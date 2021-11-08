@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nuki.Models.Smartlock
+namespace Nuki.Models
 {
-    public class OpenerAdvancedConfig
+   public abstract class OpenerAdvancedConfig
     {
         [JsonProperty("intercomId")]
         public int IntercomId { get; set; }
