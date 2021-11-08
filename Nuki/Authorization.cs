@@ -1,4 +1,4 @@
-﻿namespace Nuki.WebAPI
+﻿namespace Nuki
 {
     public static class Authorization
     {
