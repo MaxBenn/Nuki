@@ -236,6 +236,39 @@ namespace Nuki.WebAPI
             }
         }
         /// <summary>
+        /// Updates a smartlock advanced config
+        /// </summary>
+        /// <param name="smartlock"></param>
+        /// <returns></returns>
+        public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(Nuki.Models.Smartlock.Smartlock smartlock)
+        {
+            List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
+            allInputParams.Add(new KeyValuePair<string, string>("lngTimeout", $"{smartlock.AdvancedConfig.LngTimeout}"));
+            allInputParams.Add(new KeyValuePair<string, string>("singleButtonPressAction", $"{smartlock.AdvancedConfig.SingleButtonPressAction}"));
+            allInputParams.Add(new KeyValuePair<string, string>("doubleButtonPressAction", $"{smartlock.AdvancedConfig.DoubleButtonPressAction}"));
+            allInputParams.Add(new KeyValuePair<string, string>("automaticBatteryTypeDetection", $"{smartlock.AdvancedConfig.AutomaticBatteryTypeDetection}"));
+            allInputParams.Add(new KeyValuePair<string, string>("unlatchDuration", $"{smartlock.AdvancedConfig.UnlatchDuration}"));
+            allInputParams.Add(new KeyValuePair<string, string>("operationId", $"{smartlock.AdvancedConfig.OperationId}"));
+            allInputParams.Add(new KeyValuePair<string, string>("totalDegrees", $"{smartlock.AdvancedConfig.TotalDegrees}"));
+            allInputParams.Add(new KeyValuePair<string, string>("singleLockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.SingleLockedPositionOffsetDegrees}"));
+            allInputParams.Add(new KeyValuePair<string, string>("unlockedToLockedTransitionOffsetDegrees", $"{smartlock.AdvancedConfig.UnlockedToLockedTransitionOffsetDegrees}"));
+            allInputParams.Add(new KeyValuePair<string, string>("unlockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.UnlockedPositionOffsetDegrees}"));
+            allInputParams.Add(new KeyValuePair<string, string>("lockedPositionOffsetDegrees", $"{smartlock.AdvancedConfig.LockedPositionOffsetDegrees}"));
+            allInputParams.Add(new KeyValuePair<string, string>("detachedCylinder", $"{smartlock.AdvancedConfig.DetachedCylinder}"));
+            allInputParams.Add(new KeyValuePair<string, string>("batteryType", $"{smartlock.AdvancedConfig.BatteryType}"));
+            allInputParams.Add(new KeyValuePair<string, string>("autoLock", $"{smartlock.AdvancedConfig.AutoLock}"));
+            allInputParams.Add(new KeyValuePair<string, string>("autoLockTimeout", $"{smartlock.AdvancedConfig.AutoLockTimeout}"));
+            allInputParams.Add(new KeyValuePair<string, string>("autoUpdateEnabled", $"{smartlock.AdvancedConfig.AutoUpdateEnabled}"));
+            var requestParams = new FormUrlEncodedContent(allInputParams);
+
+            using (NukiApi.Client)
+            {
+                var response = await NukiApi.Client.PostAsync($"smartlock/{smartlockId}/advanced/config", requestParams);
+                return response.StatusCode;
+            }
+        }
+
+        /// <summary>
         /// Updates an opener advanced config
         /// </summary>
         /// <param name="smartlockId"></param>
