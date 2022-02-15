@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nuki.Model
 {
-   public abstract class SmartdoorAdvancedConfig
+   public class SmartdoorAdvancedConfig
     {
         [JsonProperty("lngTimeout")]
         public int LngTimeout { get; set; }

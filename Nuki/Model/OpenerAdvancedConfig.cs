@@ -2,7 +2,7 @@
 
 namespace Nuki.Model
 {
-   public abstract class OpenerAdvancedConfig
+   public class OpenerAdvancedConfig
     {
         [JsonProperty("intercomId")]
         public int IntercomId { get; set; }

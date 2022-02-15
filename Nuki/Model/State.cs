@@ -3,7 +3,7 @@ using System;
 
 namespace Nuki.Model
 {
-   public abstract class State
+   public class State
     {
         [JsonProperty("mode")]
         public int Mode { get; set; }

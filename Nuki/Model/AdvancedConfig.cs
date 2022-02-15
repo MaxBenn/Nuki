@@ -2,7 +2,7 @@
 
 namespace Nuki.Model
 { 
-    public abstract class AdvancedConfig
+    public class AdvancedConfig
     {
         [JsonProperty("lngTimeout")]
         public int LngTimeout { get; set; }

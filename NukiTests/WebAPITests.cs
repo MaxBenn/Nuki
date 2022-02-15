@@ -7,7 +7,7 @@ using Xunit;
 
 namespace NukiTests
 {
-    public class WebAPITests
+    public class WebApiTests
     {
         [Fact]
         public void TestMethod()

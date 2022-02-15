@@ -2,7 +2,7 @@
 
 namespace Nuki.Model
 {
-   public abstract class Config
+   public class Config
     {
         [JsonProperty("name")]
         public string Name { get; set; }

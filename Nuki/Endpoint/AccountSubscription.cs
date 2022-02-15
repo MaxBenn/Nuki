@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Nuki.Endpoint
 {
     //TODO
-    internal class AccountSubsciption
+    internal class AccountSubscription
     {
     }
 }
