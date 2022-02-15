@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nuki.Enumerations
+namespace Nuki.Endpoint
 {
-    public enum SmartlockOption
+    internal class Service
     {
-        None = 0,
-        Force = 2,
-        FullLock = 4
     }
 }

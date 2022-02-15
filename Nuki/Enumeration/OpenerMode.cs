@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nuki.Enumerations
+namespace Nuki.Enumeration
 {
-    public enum SmartlockMode
+    public enum OpenerMode
     {
         Uninitialized = 0,
         Pairing = 1,
         Door = 2,
+        Continous = 3,
         Maintenance = 4
     }
 }

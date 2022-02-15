@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nuki.Enumerations
+namespace Nuki.Enumeration
 {
-    public enum SmartlockLastAction
+    public enum SmartlockAction
     {
-        Unlock = 0,
-        Lock = 1,
+        Unlock = 1,
+        Lock = 2,
         Unlatch = 3,
         LockAndGo = 4,
         LockAndGoWithUnlatch = 5

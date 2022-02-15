@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nuki.Enumerations
+namespace Nuki.Enumeration
 {
-    public enum SmartlockTrigger
+    public enum OpenerTrigger
     {
         Bluetooth = 0,
         Manual = 1,
