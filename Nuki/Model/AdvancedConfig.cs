@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nuki.Models
+namespace Nuki.Model
 { 
     public abstract class AdvancedConfig
     {

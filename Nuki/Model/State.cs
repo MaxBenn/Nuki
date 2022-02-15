@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Nuki.Models
+namespace Nuki.Model
 {
    public abstract class State
     {

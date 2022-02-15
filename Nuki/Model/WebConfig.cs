@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Nuki.Models
+namespace Nuki.Model
 {
    public abstract class WebConfig
     {

@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Nuki.Endpoint
 {
-    internal static class Smartlock
+    public static class Smartlock
     {
         /// <summary>
         /// Get a list of Smartlocks
         /// </summary>
         /// <returns></returns>
-        public static async Task<Models.Smartlock[]> GetSmartlocksAsync()
+        public static async Task<Model.Smartlock[]> GetSmartlocksAsync()
         {
             using (WebAPI.Client)
             {
                 var response = await WebAPI.Client.GetAsync($"smartlock");
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock[]>(responseString);
+                return JsonConvert.DeserializeObject<Model.Smartlock[]>(responseString);
             }
         }
 
@@ -30,7 +30,7 @@ namespace Nuki.Endpoint
         /// <param name="authUuid"></param>
         /// <param name="authSecret"></param>
         /// <returns></returns>
-        public static async Task<Models.Smartlock> PutSmartlockAsync(Models.Smartlock smartlock, string authUuid, string authSecret)
+        public static async Task<Model.Smartlock> PutSmartlockAsync(Model.Smartlock smartlock, string authUuid, string authSecret)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
@@ -48,7 +48,7 @@ namespace Nuki.Endpoint
             {
                 var response = await WebAPI.Client.PutAsync($"smartlock", requestParams);
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
+                return JsonConvert.DeserializeObject<Model.Smartlock>(responseString);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Nuki.Endpoint
         /// <param name="authSecret"></param>
         /// <param name="lmType"></param>
         /// <returns></returns>
-        public static async Task<Models.Smartlock> PutSmartlockAsync(int smartlockId, int type, string name, string authUuid, int authId, string authSecret, int lmType)
+        public static async Task<Model.Smartlock> PutSmartlockAsync(int smartlockId, int type, string name, string authUuid, int authId, string authSecret, int lmType)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
@@ -81,7 +81,7 @@ namespace Nuki.Endpoint
             {
                 var response = await WebAPI.Client.PutAsync($"smartlock", requestParams);
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
+                return JsonConvert.DeserializeObject<Model.Smartlock>(responseString);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> DeleteSmartlockAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> DeleteSmartlockAsync(Model.Smartlock smartlock)
         {
             using (WebAPI.Client)
             {
@@ -118,13 +118,13 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<Models.Smartlock> GetSmartlockAsync(Models.Smartlock smartlock)
+        public static async Task<Model.Smartlock> GetSmartlockAsync(Model.Smartlock smartlock)
         {
             using (WebAPI.Client)
             {
                 var response = await WebAPI.Client.GetAsync($"smartlock/{smartlock.SmartlockId}");
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
+                return JsonConvert.DeserializeObject<Model.Smartlock>(responseString);
             }
         }
 
@@ -133,13 +133,13 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlockId"></param>
         /// <returns></returns>
-        public static async Task<Models.Smartlock> GetSmartlockAsync(int smartlockId)
+        public static async Task<Model.Smartlock> GetSmartlockAsync(int smartlockId)
         {
             using (WebAPI.Client)
             {
                 var response = await WebAPI.Client.GetAsync($"smartlock/{smartlockId}");
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Smartlock>(responseString);
+                return JsonConvert.DeserializeObject<Model.Smartlock>(responseString);
             }
         }
 
@@ -150,7 +150,7 @@ namespace Nuki.Endpoint
         /// <param name="name"></param>
         /// <param name="favorite"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockAsync(Model.Smartlock smartlock)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
 
@@ -194,7 +194,7 @@ namespace Nuki.Endpoint
         /// <param name="action"></param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockActionAsync(Models.Smartlock smartlock, SmartlockAction action, SmartlockOption option)
+        public static async Task<HttpStatusCode> PostSmartlockActionAsync(Model.Smartlock smartlock, SmartlockAction action, SmartlockOption option)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
@@ -238,7 +238,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockActionLockAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockActionLockAsync(Model.Smartlock smartlock)
         {
             var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
 
@@ -270,7 +270,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockActionUnlockAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockActionUnlockAsync(Model.Smartlock smartlock)
         {
             var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
 
@@ -303,7 +303,7 @@ namespace Nuki.Endpoint
         /// <param name="smartlock"></param>
         /// <param name="adminPin"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAdminPinAsync(Models.Smartlock smartlock, int adminPin)
+        public static async Task<HttpStatusCode> PostSmartlockAdminPinAsync(Model.Smartlock smartlock, int adminPin)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
@@ -344,7 +344,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockAdvancedConfigAsync(Model.Smartlock smartlock)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>();
             allInputParams.Add(new KeyValuePair<string, string>("lngTimeout", $"{smartlock.AdvancedConfig.LngTimeout}"));
@@ -443,7 +443,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAdvancedOpenerconfigAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockAdvancedOpenerconfigAsync(Model.Smartlock smartlock)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
@@ -572,7 +572,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockAdvancedSmartdoorconfigAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockAdvancedSmartdoorconfigAsync(Model.Smartlock smartlock)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
@@ -656,7 +656,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockConfigAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockConfigAsync(Model.Smartlock smartlock)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
@@ -787,7 +787,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockSyncAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockSyncAsync(Model.Smartlock smartlock)
         {
             var requestParams = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>());
 
@@ -819,7 +819,7 @@ namespace Nuki.Endpoint
         /// </summary>
         /// <param name="smartlock"></param>
         /// <returns></returns>
-        public static async Task<HttpStatusCode> PostSmartlockWebConfigAsync(Models.Smartlock smartlock)
+        public static async Task<HttpStatusCode> PostSmartlockWebConfigAsync(Model.Smartlock smartlock)
         {
             List<KeyValuePair<string, string>> allInputParams = new List<KeyValuePair<string, string>>
            {
